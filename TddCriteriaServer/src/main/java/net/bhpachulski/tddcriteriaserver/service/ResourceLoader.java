@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.ws.rs.core.Application;
 import net.bhpachulski.tddcriteriaserver.service.impl.TDDCriteriaService;
+import org.glassfish.jersey.filter.LoggingFilter;
+import org.glassfish.jersey.media.multipart.MultiPartFeature;
 
 /**
  *
@@ -18,6 +20,8 @@ public class ResourceLoader extends Application{
         
         // register root resource
         classes.add(TDDCriteriaService.class);
+        classes.add(MultiPartFeature.class);
+        
         return classes;
     }
 }
