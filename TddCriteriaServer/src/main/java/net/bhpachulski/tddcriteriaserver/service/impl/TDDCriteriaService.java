@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Properties;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -12,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import net.bhpachulski.tddcriteriaserver.TddCriteriaDAO;
+import net.bhpachulski.tddcriteriaserver.model.Student;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -21,38 +24,36 @@ import org.glassfish.jersey.media.multipart.FormDataParam;
  */
 @Path("/tddCriteriaService")
 public class TDDCriteriaService {
+    
+    private TddCriteriaDAO dao;
 
-    @GET
-    @Path("/test")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String sayHello() throws SQLException {
-        
-        DriverManager.registerDriver(new org.apache.derby.jdbc.EmbeddedDriver());
-        
-        String dbURL = "jdbc:derby:codejava/webdb;create=true";
-        Connection conn = DriverManager.getConnection(dbURL);
+    public TDDCriteriaService() throws SQLException {
+        dao = new TddCriteriaDAO();
+        dao.init();
+    }
+    
+    @POST
+    @Path("/addStudent")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public List<Student> insertAluno(Student student) throws SQLException {
 
-        if (conn != null) {
-            System.out.println("Connected to database");
-        }
-        
-        return "Connected to database";
+        dao.insertStudent(student);
+         
+        return dao.getAllStudents();
     }
 
     @POST
-    @Path("/upload")
+    @Path("/addStudentFile")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response test(@FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail) {
+    public Response test(
+            @FormDataParam("studentId") int studentId,
+            @FormDataParam("file") InputStream uploadedInputStream,
+            @FormDataParam("file") FormDataContentDisposition fileDetail) throws SQLException {
 
-        String uploadedFileLocation = "d://uploaded/" + fileDetail.getFileName();
+        dao.insertFile(studentId, uploadedInputStream);
 
-        // save it
-//        writeToFile(uploadedInputStream, uploadedFileLocation);
-
-        String output = "File uploaded to : " + uploadedFileLocation;
-
-        return Response.status(200).entity(output).build();
+        return Response.status(200).build();
     }
 
 }
