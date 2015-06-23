@@ -1,6 +1,7 @@
 package net.bhpachulski.tddcriteriaserver.model;
 
 import java.sql.Blob;
+import java.util.Date;
 
 /**
  *
@@ -11,6 +12,7 @@ public class StudentFile {
     private int id;
     private int studentId;
     private Blob file;
+    private Date sentIn;
 
     public int getId() {
         return id;
@@ -34,6 +36,20 @@ public class StudentFile {
 
     public void setFile(Blob file) {
         this.file = file;
+    }
+
+    /**
+     * @return the sentIn
+     */
+    public Date getSentIn() {
+        return sentIn;
+    }
+
+    /**
+     * @param sentIn the sentIn to set
+     */
+    public void setSentIn(Date sentIn) {
+        this.sentIn = sentIn;
     }
     
     

@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Wed Jun 17 23:05:49 BRT 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014e-046a-4372-0000035d7410 
+Tue Jun 23 00:12:46 BRT 2015:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014e-1e67-5b13-000003834460 
 on database directory /Users/bhpachulski/Documents/Projetos/GIT/EclemmaCriteriaTDD/TddCriteriaPluginServer/TddCriteriaServer/tddCriteriaDB/db with class loader sun.misc.Launcher$AppClassLoader@1729854 
 Loaded from file:/Users/bhpachulski/Documents/Projetos/GIT/EclemmaCriteriaTDD/TddCriteriaPluginServer/TddCriteriaServer/target/repo/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Apple Inc.

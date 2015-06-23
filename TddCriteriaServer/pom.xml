@@ -11,6 +11,7 @@
         <maven.compiler.source>1.7</maven.compiler.source>
         <maven.compiler.target>1.7</maven.compiler.target>
         <tomcat.version>7.0.57</tomcat.version>
+        <org.eclipse.jetty.version>9.0.0.v20130308</org.eclipse.jetty.version>
     </properties>
     
     <dependencies>
@@ -89,6 +90,65 @@
                     <target>1.6</target>
                 </configuration>
             </plugin>
+            
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+            </plugin>
+            
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <webResources>
+                        <resource>
+                            <directory>web</directory>
+                        </resource>
+                        <resource>
+                            <directory>${project.basedir}/resources/configs</directory>
+                            <targetPath>WEB-INF/</targetPath>
+                            <includes>
+                                <include>**/*.properties</include>
+                                <include>**/*.xml</include>
+                            </includes>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
+            
+            <!--  http://www.eclipse.org/jetty/documentation/current/ -->
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>${org.eclipse.jetty.version}</version>
+                <configuration>
+                    <connectors>
+                        <connector implementation="org.eclipse.jetty.server.ServerConnector">
+                            <port>8080</port>
+                            <maxIdleTime>60000</maxIdleTime>
+                        </connector>
+                    </connectors>
+                    <systemProperties>
+                        <systemProperty>
+                            <name>org.apache.jasper.compiler.disablejsr199</name>
+                            <value>true</value>
+                        </systemProperty>
+                    </systemProperties>
+                    <scanIntervalSeconds>10</scanIntervalSeconds>
+                    <webApp>
+                        <contextPath>/${project.artifactId}</contextPath>
+                        <descriptor>${project.basedir}/webapp/WEB-INF/web.xml</descriptor>
+                        <tempDirectory>/tmp/${project.artifactId}</tempDirectory>
+                        <resourceBases>
+                            <resourceBase>${project.basedir}/web</resourceBase>
+                        </resourceBases>
+                    </webApp>
+                </configuration>
+				
+                <dependencies>	
+					
+                </dependencies>	
+            </plugin>
+            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>appassembler-maven-plugin</artifactId>
