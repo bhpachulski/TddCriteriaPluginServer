@@ -1,5 +1,6 @@
 package net.bhpachulski.tddcriteriaserver.dao;
 
+import com.sun.xml.internal.ws.api.ComponentFeature;
 import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -7,6 +8,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,17 +66,33 @@ public class TddCriteriaDAO {
         return tables;
     }
 
-    public void insertFile(int idStudent, InputStream file) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, sentIn) VALUES (?, ?, CURRENT_TIMESTAMP)");
-        ps.setInt(1, idStudent);
-        ps.setBinaryStream(2, file);
+    public StudentFile insertStudentFile(StudentFile sf) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, sentIn) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
+        ps.setInt(1, sf.getStudentId());
+        ps.setBinaryStream(2, sf.getFileIs());
+        ps.setInt(3, sf.getType().getId());
         ps.execute();
+        
+        ResultSet rsKey = ps.getGeneratedKeys();
+        rsKey.next();
+        
+        sf.setId(rsKey.getInt(1));
+        sf.setFileIs(null);
+        
+        return sf;
     }
 
-    public void insertStudent(Student student) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO STUDENTS (name) VALUES (?)");
+    public Student insertStudent(Student student) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO STUDENTS (name) VALUES (?)", Statement.RETURN_GENERATED_KEYS);
         ps.setString(1, student.getName());
         ps.execute();
+        
+        ResultSet rsKey = ps.getGeneratedKeys();
+        rsKey.next();
+        
+        student.setId(rsKey.getInt(1));
+        
+        return student;
     }
 
     public List<Student> getAllStudents() throws SQLException {
@@ -119,8 +137,10 @@ public class TddCriteriaDAO {
             studentFile.setId(rs.getInt("id"));
             studentFile.setStudentId(rs.getInt("idStudent"));
             studentFile.setSentIn(new Date(rs.getTimestamp("sentIn").getTime()));
-//            studentFile.setFile(rs.getBlob("file"));
-
+            studentFile.setFile(rs.getBlob("file"));
+            
+            System.out.println(studentFile.getFile().length());
+            
             studentFiles.add(studentFile);
         }
 

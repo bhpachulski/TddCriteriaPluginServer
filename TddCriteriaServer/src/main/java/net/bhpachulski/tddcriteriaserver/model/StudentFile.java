@@ -1,7 +1,9 @@
 package net.bhpachulski.tddcriteriaserver.model;
 
+import java.io.InputStream;
 import java.sql.Blob;
 import java.util.Date;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -10,9 +12,16 @@ import java.util.Date;
 public class StudentFile {
     
     private int id;
-    private int studentId;
-    private Blob file;
+    private int studentId;    
     private Date sentIn;
+    
+    @XmlTransient
+    private InputStream fileIs;
+    
+    @XmlTransient
+    private Blob file;
+    
+    private FileType type;
 
     public int getId() {
         return id;
@@ -51,7 +60,20 @@ public class StudentFile {
     public void setSentIn(Date sentIn) {
         this.sentIn = sentIn;
     }
-    
-    
-            
+
+    public FileType getType() {
+        return type;
+    }
+
+    public void setType(FileType type) {
+        this.type = type;
+    }
+
+    public InputStream getFileIs() {
+        return fileIs;
+    }
+
+    public void setFileIs(InputStream fileIs) {
+        this.fileIs = fileIs;
+    }
 }

@@ -12,6 +12,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import net.bhpachulski.tddcriteriaserver.dao.TddCriteriaDAO;
+import net.bhpachulski.tddcriteriaserver.model.FileType;
 import net.bhpachulski.tddcriteriaserver.model.Student;
 import net.bhpachulski.tddcriteriaserver.model.StudentFile;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
@@ -35,32 +36,31 @@ public class TDDCriteriaService {
     @Path("/addStudent")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
-    public List<Student> insertAluno(Student student) throws SQLException {
-        dao.insertStudent(student);
-         
-        return dao.getAllStudents();
+    public Student insertAluno(Student student) throws SQLException {
+        return dao.insertStudent(student);
     }
     
     @POST
     @Path("/addStudentFile")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
-    public Response test(
+    public StudentFile test(
             @FormDataParam("studentId") int studentId,
+            @FormDataParam("fileType") int fileType,
             @FormDataParam("file") InputStream uploadedInputStream,
             @FormDataParam("file") FormDataContentDisposition fileDetail) throws SQLException {
 
-        dao.insertFile(studentId, uploadedInputStream);
-
-        return Response.status(200).build();
+        StudentFile sf = new StudentFile();
+        sf.setStudentId(studentId);
+        sf.setFileIs(uploadedInputStream);
+        sf.setType(FileType.getFileType().get(fileType));
+        
+        return dao.insertStudentFile(sf);
     }
     
     @GET
     @Path("/allFiles")
     @Produces(MediaType.APPLICATION_JSON)
     public List<StudentFile> getAllFiles () throws SQLException, ParseException {
-        
-        List<StudentFile> files = dao.getAllFiles();
-        
-        return files;
+        return dao.getAllFiles();
     }
 }
