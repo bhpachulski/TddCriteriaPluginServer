@@ -112,18 +112,6 @@ public class TddCriteriaDAO {
 
         return students;
     }
-    
-//    public Student getinsertedStudent() throws SQLException {
-//        PreparedStatement ps = conn.prepareStatement("SELECT * FROM STUDENTS");
-//        ResultSet rs = ps.executeQuery();
-//        rs.first();
-//
-//            Student student = new Student();
-//            student.setId(rs.getInt("id"));
-//            student.setName(rs.getString("name"));
-//
-//        return student;
-//    }
 
     public List<StudentFile> getAllFiles() throws SQLException, ParseException {
 
@@ -137,9 +125,7 @@ public class TddCriteriaDAO {
             studentFile.setId(rs.getInt("id"));
             studentFile.setStudentId(rs.getInt("idStudent"));
             studentFile.setSentIn(new Date(rs.getTimestamp("sentIn").getTime()));
-            studentFile.setFile(rs.getBlob("file"));
-            
-            System.out.println(studentFile.getFile().length());
+//            studentFile.setFile(rs.getBlob("file"));
             
             studentFiles.add(studentFile);
         }
