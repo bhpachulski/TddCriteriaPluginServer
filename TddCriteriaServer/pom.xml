@@ -12,24 +12,23 @@
         <maven.compiler.target>1.7</maven.compiler.target>
         <org.eclipse.jetty.version>9.2.11.v20150529</org.eclipse.jetty.version>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
     
     <dependencies>        
         <dependency>
             <groupId>org.glassfish.jersey.containers</groupId>
             <artifactId>jersey-container-servlet</artifactId>
-            <version>2.6</version>
+            <version>2.18</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-multipart</artifactId>
-            <version>2.6</version>
+            <version>2.18</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jersey.media</groupId>
             <artifactId>jersey-media-json-jackson</artifactId>
-            <version>2.6</version>
+            <version>2.18</version>
         </dependency>
         <dependency>
             <groupId>com.sun.org.apache.xml.internal</groupId>
@@ -112,7 +111,6 @@
                 <configuration></configuration>				
                 <dependencies></dependencies>	
             </plugin>
-            
         </plugins>
     </build>
 </project>
