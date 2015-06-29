@@ -37,8 +37,8 @@ public enum FileType {
         return folder;
     }
 
-    public static Map<Integer, FileType> getFileType() {
-        return fileType;
+    public static FileType getFileType(int id) {
+        return fileType.get(id);
     }
     
     

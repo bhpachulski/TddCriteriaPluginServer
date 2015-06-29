@@ -14,6 +14,7 @@ public class StudentFile {
     private int id;
     private int studentId;    
     private Date sentIn;
+    private String fileName;
     
     @XmlTransient
     private InputStream fileIs;
@@ -75,5 +76,13 @@ public class StudentFile {
 
     public void setFileIs(InputStream fileIs) {
         this.fileIs = fileIs;
+    }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
     }
 }

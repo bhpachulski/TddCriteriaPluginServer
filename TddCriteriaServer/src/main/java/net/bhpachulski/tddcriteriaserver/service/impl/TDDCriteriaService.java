@@ -43,16 +43,18 @@ public class TDDCriteriaService {
     @POST
     @Path("/addStudentFile")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
+    @Produces(MediaType.APPLICATION_JSON)
     public StudentFile test(
             @FormDataParam("studentId") int studentId,
             @FormDataParam("fileType") int fileType,
-            @FormDataParam("file") InputStream uploadedInputStream,
-            @FormDataParam("file") FormDataContentDisposition fileDetail) throws SQLException {
+            @FormDataParam("fileName") String fileName,
+            @FormDataParam("file") InputStream uploadedInputStream) throws SQLException {
 
         StudentFile sf = new StudentFile();
         sf.setStudentId(studentId);
         sf.setFileIs(uploadedInputStream);
-        sf.setType(FileType.getFileType().get(fileType));
+        sf.setType(FileType.getFileType(fileType));
+        sf.setFileName(fileName);
         
         return dao.insertStudentFile(sf);
     }

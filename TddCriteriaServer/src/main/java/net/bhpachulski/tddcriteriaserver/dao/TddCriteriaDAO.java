@@ -1,7 +1,5 @@
 package net.bhpachulski.tddcriteriaserver.dao;
 
-import com.sun.xml.internal.ws.api.ComponentFeature;
-import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
@@ -10,12 +8,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
+import net.bhpachulski.tddcriteriaserver.model.FileType;
 import net.bhpachulski.tddcriteriaserver.model.Student;
 import net.bhpachulski.tddcriteriaserver.model.StudentFile;
 
@@ -67,10 +65,11 @@ public class TddCriteriaDAO {
     }
 
     public StudentFile insertStudentFile(StudentFile sf) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, sentIn) VALUES (?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, fileName, sentIn) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, sf.getStudentId());
         ps.setBinaryStream(2, sf.getFileIs());
         ps.setInt(3, sf.getType().getId());
+        ps.setString(4, sf.getFileName());
         ps.execute();
         
         ResultSet rsKey = ps.getGeneratedKeys();
@@ -125,7 +124,8 @@ public class TddCriteriaDAO {
             studentFile.setId(rs.getInt("id"));
             studentFile.setStudentId(rs.getInt("idStudent"));
             studentFile.setSentIn(new Date(rs.getTimestamp("sentIn").getTime()));
-//            studentFile.setFile(rs.getBlob("file"));
+            studentFile.setType(FileType.getFileType(rs.getInt("typeID")));
+            studentFile.setFileName(rs.getString("fileName"));
             
             studentFiles.add(studentFile);
         }
