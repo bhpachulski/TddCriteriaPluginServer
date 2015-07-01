@@ -65,11 +65,12 @@ public class TddCriteriaDAO {
     }
 
     public StudentFile insertStudentFile(StudentFile sf) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, fileName, sentIn) VALUES (?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, fileName, projectName, sentIn) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, sf.getStudentId());
         ps.setBinaryStream(2, sf.getFileIs());
         ps.setInt(3, sf.getType().getId());
         ps.setString(4, sf.getFileName());
+        ps.setString(5, sf.getProjectName());
         ps.execute();
         
         ResultSet rsKey = ps.getGeneratedKeys();
@@ -79,6 +80,28 @@ public class TddCriteriaDAO {
         sf.setFileIs(null);
         
         return sf;
+    }
+    
+    public Student findStudentByName (Student student) throws SQLException {
+        PreparedStatement ps = conn.prepareStatement("SELECT * FROM STUDENTS WHERE name = ?");
+        ps.setString(1, student.getName());
+        ResultSet rs = ps.executeQuery();
+        
+        if (rs.next())
+            student.setId(rs.getInt("id"));
+        
+        return student;
+    }
+    
+    public Student insertOrGetExistingStudent (Student s) throws SQLException {
+    
+        Student student = this.findStudentByName(s);
+        
+        if (student.getId() == 0)
+            return this.insertStudent(s);
+        else 
+            return student;
+        
     }
 
     public Student insertStudent(Student student) throws SQLException {
@@ -126,6 +149,7 @@ public class TddCriteriaDAO {
             studentFile.setSentIn(new Date(rs.getTimestamp("sentIn").getTime()));
             studentFile.setType(FileType.getFileType(rs.getInt("typeID")));
             studentFile.setFileName(rs.getString("fileName"));
+            studentFile.setProjectName(rs.getString("projectName"));
             
             studentFiles.add(studentFile);
         }

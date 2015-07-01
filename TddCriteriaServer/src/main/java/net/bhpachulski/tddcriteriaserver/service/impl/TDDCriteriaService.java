@@ -37,16 +37,17 @@ public class TDDCriteriaService {
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes(MediaType.APPLICATION_JSON)
     public Student insertAluno(Student student) throws SQLException {
-        return dao.insertStudent(student);
+        return dao.insertOrGetExistingStudent(student);
     }
     
     @POST
     @Path("/addStudentFile")
     @Consumes(MediaType.MULTIPART_FORM_DATA)
     @Produces(MediaType.APPLICATION_JSON)
-    public StudentFile test(
+    public StudentFile addStudentFile(
             @FormDataParam("studentId") int studentId,
             @FormDataParam("fileType") int fileType,
+            @FormDataParam("projectName") String projectName,
             @FormDataParam("fileName") String fileName,
             @FormDataParam("file") InputStream uploadedInputStream) throws SQLException {
 
@@ -55,6 +56,7 @@ public class TDDCriteriaService {
         sf.setFileIs(uploadedInputStream);
         sf.setType(FileType.getFileType(fileType));
         sf.setFileName(fileName);
+        sf.setProjectName(projectName);
         
         return dao.insertStudentFile(sf);
     }
