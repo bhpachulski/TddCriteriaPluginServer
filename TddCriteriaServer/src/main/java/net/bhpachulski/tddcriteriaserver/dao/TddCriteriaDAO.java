@@ -16,6 +16,7 @@ import java.util.Properties;
 import net.bhpachulski.tddcriteriaserver.model.FileType;
 import net.bhpachulski.tddcriteriaserver.model.Student;
 import net.bhpachulski.tddcriteriaserver.model.StudentFile;
+import net.bhpachulski.tddcriteriaserver.model.TDDStage;
 
 import net.bhpachulski.tddcriteriaserver.util.Util;
 
@@ -65,12 +66,13 @@ public class TddCriteriaDAO {
     }
 
     public StudentFile insertStudentFile(StudentFile sf) throws SQLException {
-        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, fileName, projectName, sentIn) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)", Statement.RETURN_GENERATED_KEYS);
+        PreparedStatement ps = conn.prepareStatement("INSERT INTO FILES (idStudent, file, typeID, fileName, projectName, sentIn, tddStage) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP, ?)", Statement.RETURN_GENERATED_KEYS);
         ps.setInt(1, sf.getStudentId());
         ps.setBinaryStream(2, sf.getFileIs());
         ps.setInt(3, sf.getType().getId());
         ps.setString(4, sf.getFileName());
         ps.setString(5, sf.getProjectName());
+        ps.setString(6, sf.getStage().toString());
         ps.execute();
         
         ResultSet rsKey = ps.getGeneratedKeys();
@@ -150,6 +152,7 @@ public class TddCriteriaDAO {
             studentFile.setType(FileType.getFileType(rs.getInt("typeID")));
             studentFile.setFileName(rs.getString("fileName"));
             studentFile.setProjectName(rs.getString("projectName"));
+            studentFile.setStage(TDDStage.getStageByString(rs.getString("tddStage")));
             
             studentFiles.add(studentFile);
         }

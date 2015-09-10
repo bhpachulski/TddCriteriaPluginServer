@@ -15,6 +15,7 @@ import net.bhpachulski.tddcriteriaserver.dao.TddCriteriaDAO;
 import net.bhpachulski.tddcriteriaserver.model.FileType;
 import net.bhpachulski.tddcriteriaserver.model.Student;
 import net.bhpachulski.tddcriteriaserver.model.StudentFile;
+import net.bhpachulski.tddcriteriaserver.model.TDDStage;
 import org.glassfish.jersey.media.multipart.FormDataContentDisposition;
 import org.glassfish.jersey.media.multipart.FormDataParam;
 
@@ -49,7 +50,8 @@ public class TDDCriteriaService {
             @FormDataParam("fileType") int fileType,
             @FormDataParam("projectName") String projectName,
             @FormDataParam("fileName") String fileName,
-            @FormDataParam("file") InputStream uploadedInputStream) throws SQLException {
+            @FormDataParam("file") InputStream uploadedInputStream,
+            @FormDataParam("tddStage") String tddStage) throws SQLException {
 
         StudentFile sf = new StudentFile();
         sf.setStudentId(studentId);
@@ -57,6 +59,7 @@ public class TDDCriteriaService {
         sf.setType(FileType.getFileType(fileType));
         sf.setFileName(fileName);
         sf.setProjectName(projectName);
+        sf.setStage(TDDStage.getStageByString(tddStage));
         
         return dao.insertStudentFile(sf);
     }

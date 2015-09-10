@@ -17,6 +17,8 @@ public class StudentFile {
     private String fileName;
     private String projectName;
     
+    private TDDStage stage;
+    
     @XmlTransient
     private InputStream fileIs;
     
@@ -93,5 +95,13 @@ public class StudentFile {
 
     public void setProjectName(String projectName) {
         this.projectName = projectName;
+    }
+
+    public TDDStage getStage() {
+        return stage;
+    }
+
+    public void setStage(TDDStage stage) {
+        this.stage = stage;
     }
 }
