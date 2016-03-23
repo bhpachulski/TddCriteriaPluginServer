@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Thu Sep 10 01:36:26 BRT 2015:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-014f-b58a-581c-0000013fdcf8 
-on database directory /Users/bhpachulski/Documents/Projetos/GIT/EclemmaCriteriaTDD/TddCriteriaPluginServer/TddCriteriaServer/tddCriteriaDB/db with class loader WebAppClassLoader=TDDCriteriaServer@52f3d0e9 
+Wed Mar 23 20:48:09 BRT 2016:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-0153-a5e0-d6e4-000000c1ddf0 
+on database directory /Users/bhpachulski/Documents/Projetos/GIT/EclemmaCriteriaTDD/TddCriteriaPluginServer/TddCriteriaServer/tddCriteriaDB/db with class loader WebAppClassLoader=TDDCriteriaServer@284868c5 
 Loaded from file:/Users/bhpachulski/.m2/repository/org/apache/derby/derby/10.11.1.1/derby-10.11.1.1.jar
 java.vendor=Oracle Corporation
 java.runtime.version=1.7.0_21-b12
 user.dir=/Users/bhpachulski/Documents/Projetos/GIT/EclemmaCriteriaTDD/TddCriteriaPluginServer/TddCriteriaServer
 os.name=Mac OS X
 os.arch=x86_64
-os.version=10.10.4
+os.version=10.11.3
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''
