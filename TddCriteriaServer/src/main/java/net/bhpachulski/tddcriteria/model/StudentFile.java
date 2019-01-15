@@ -20,8 +20,6 @@ public class StudentFile {
 	
 	private InputStream fileIs;
 
-	
-
 	public StudentFile(String fileName, FileType type) {
 		this.fileName = fileName;
 		this.type = type;
